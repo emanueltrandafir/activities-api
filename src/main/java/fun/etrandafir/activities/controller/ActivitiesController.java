@@ -25,14 +25,6 @@ public class ActivitiesController {
 
     @GetMapping
     public List<Activity> find(@RequestParam(value = "search") String search) {
-        ActivitySpecificationsBuilder builder = new ActivitySpecificationsBuilder();
-        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
-        Matcher matcher = pattern.matcher(search + ",");
-        while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
-        }
-
-        Specification<Activity> spec = builder.build();
-        return repository.findAll(spec);
+        return repository.findAll(ActivitySpecificationsBuilder.fromString(search));
     }
 }

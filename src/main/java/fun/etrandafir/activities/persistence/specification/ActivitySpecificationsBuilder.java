@@ -3,35 +3,34 @@ package fun.etrandafir.activities.persistence.specification;
 import fun.etrandafir.activities.persistence.model.Activity;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ActivitySpecificationsBuilder {
 
-    private final List<SearchCriteria> params = new ArrayList<SearchCriteria>();
+    private Specification spec;
 
     public ActivitySpecificationsBuilder with(String key, String operation, Object value) {
-        params.add(new SearchCriteria(key, operation, value));
+        var newSpec = new ActivitySpecification(key, operation, value);
+        if(spec == null) {
+            spec = newSpec;
+        } else {
+            spec = spec.and(newSpec);
+        }
         return this;
     }
 
     public Specification<Activity> build() {
-        if (params.size() == 0) {
-            return null;
+        return spec;
+    }
+
+    public static Specification<Activity> fromString(String queryString) {
+        ActivitySpecificationsBuilder builder = new ActivitySpecificationsBuilder();
+        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+        Matcher matcher = pattern.matcher(queryString + ",");
+        while (matcher.find()) {
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
         }
-
-        List<ActivitySpecification> specs = params.stream().map(ActivitySpecification::new).collect(Collectors.toList());
-        
-        Specification result = specs.get(0);
-
-        for (int i = 1; i < params.size(); i++) {
-            result = params.get(i).isOrPredicate()
-                ? Specification.where(result)
-                  .or(specs.get(i))
-                : Specification.where(result)
-                  .and(specs.get(i));
-        }       
-        return result;
+        return builder.build();
     }
 }
