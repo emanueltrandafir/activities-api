@@ -19,12 +19,10 @@ public class ActivitySpecification implements Specification<Activity> {
 
     @Override
     public Predicate toPredicate(Root<Activity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-
         switch (operation) {
             case ">": return greaterThanOrEqualTo(root, builder);
-            case "<":                 return lessThanOrEqualTo(root, builder);
-            case ":":
-                return equalIgnoreCase(root, builder);
+            case "<": return lessThanOrEqualTo(root, builder);
+            case ":": return equalIgnoreCase(root, builder);
             default:
                 throw new IllegalArgumentException(operation + " is not a supported operation type!");
         }

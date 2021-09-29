@@ -25,6 +25,9 @@ public class ActivitySpecificationsBuilder {
     }
 
     public static Specification<Activity> fromString(String queryString) {
+        if(queryString==null) {
+            return null;
+        }
         ActivitySpecificationsBuilder builder = new ActivitySpecificationsBuilder();
         Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
         Matcher matcher = pattern.matcher(queryString + ",");

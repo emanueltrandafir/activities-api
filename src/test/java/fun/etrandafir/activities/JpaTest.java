@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-public class ActivitiesTest {
+public class JpaTest {
 
     @Autowired
     private DataSource dataSource;
