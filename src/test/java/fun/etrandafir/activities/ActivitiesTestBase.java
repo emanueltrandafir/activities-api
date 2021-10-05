@@ -15,10 +15,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+//@ExtendWith(SpringExtension.class)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+//@DirtiesContext
+//@AutoConfigureMessageVerifier
+
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@DirtiesContext
-@AutoConfigureMessageVerifier
+@SpringBootTest
 public class ActivitiesTestBase {
 
     @Autowired

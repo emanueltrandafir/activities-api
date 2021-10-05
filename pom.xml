@@ -96,6 +96,7 @@
 					<baseClassForTests>
 						fun.etrandafir.activities.ActivitiesTestBase
 					</baseClassForTests>
+					<testFramework>JUNIT5</testFramework>
 				</configuration>
 			</plugin>
 
